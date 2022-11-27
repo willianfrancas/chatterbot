@@ -1,0 +1,21 @@
+# cleaner.py
+
+import re
+
+def remove_chat_metadata(chat_export_file):
+    date_time = r"(\[\d+\/\d+\/\d+\s\d+:\d+:\d+\])"  # e.g. "9/16/22, 06:34"
+    dash_whitespace = r"\s"  # " "
+    username = r"([\w\s]+)"  # e.g. "Martin"
+    metadata_end = r":\s"  # ": "
+    pattern = date_time + dash_whitespace + username + metadata_end
+    
+    with open(chat_export_file, "r", encoding='cp850', errors='ignore') as corpus_file:
+        content = corpus_file.read()
+    cleaned_corpus = re.sub(pattern, "", content)
+    print(f'content => {cleaned_corpus}')
+    # tupled = tuple(cleaned_corpus.split("\n"))
+    # print(tupled)
+    return cleaned_corpus
+
+if __name__ == "__main__":
+    remove_chat_metadata("__chat.txt")
